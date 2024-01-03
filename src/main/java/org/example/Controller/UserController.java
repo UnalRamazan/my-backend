@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 public class UserController {
 
     //UserService interface'sinden örnek alır ve kontrol işlemleri için kullanır.
@@ -20,6 +20,15 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping("/login")
+    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
+        if (userService.isValidUser(username, password)) {
+            return new ResponseEntity<>("Giriş başarılı!", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Kullanıcı adı veya şifre geçersiz!", HttpStatus.UNAUTHORIZED);
+        }
     }
 
     @GetMapping

@@ -40,4 +40,11 @@ public class UserService {
 
         return userRepository.findById(id).orElse(null);
     }
+
+    public boolean isValidUser(String username, String password) {
+        User user = userRepository.findByUsername(username);
+
+        // Kullanıcı bulunduysa ve şifre eşleşiyorsa true döner
+        return user != null && user.getUsername().equals(username) && password.equals(user.getPassword());
+    }
 }
